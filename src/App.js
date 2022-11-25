@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+//importing default exports - name can be different
+// import Product from "./components/Product"
+//importing named exports - name must be the same
+import { ProductList } from "./components/ProductList"
+import Cart from "./components/Cart"
+import NavBar from "./components/mui/NavBar"
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar />
+      <ProductList />
+      <Cart />
     </div>
-  );
+  )
 }
 
+//Can have only one default export per file, but can have multiple named exports per file
 export default App;
