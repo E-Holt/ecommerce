@@ -1,3 +1,4 @@
+import { useState } from "react"
 import styled from "styled-components"
 import Button from './styled/Button'
 
@@ -16,6 +17,14 @@ const Wrapper = styled.div`
 
 function Product(props){
   const item = props.productInfo
+  const [itemOnCart, setItemOnCart] = useState(0)
+
+  function handleAddToCart () {
+    setItemOnCart((prevState) => {
+      return prevState + 1
+    })
+  }
+
   return(
     <Wrapper>
         <img style={{
@@ -34,7 +43,14 @@ function Product(props){
           marginTop: 10,
           marginBottom: 10,
         }}>${item.price}</div>
-        <Button>Add to cart</Button>
+        <div>Stock: {item.stock}</div>
+        <div>Stock left: {item.stock - itemOnCart}</div>
+        <Button 
+            greaterThanFive={itemOnCart > 5}
+            disabled={item.stock === itemOnCart} 
+            onClick={handleAddToCart}>
+              {item.stock === itemOnCart ? "No stock left" : "Add to cart"}
+          </Button>
     </Wrapper>
   )
 }

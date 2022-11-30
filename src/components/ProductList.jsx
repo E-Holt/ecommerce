@@ -1,7 +1,8 @@
 import styled from "styled-components"
-import Product from "./Product"
+// import Product from "./Product"
 import Title from './styled/Title'
 import Gridbox from './styled/Gridbox'
+import ProductClass from "./ProductClass"
 
 const CustomGrid = styled(Gridbox)`
   padding: 30px;
@@ -20,6 +21,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 2,
@@ -32,6 +34,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 3,
@@ -44,6 +47,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 4,
@@ -56,6 +60,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 5,
@@ -68,6 +73,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 6,
@@ -80,6 +86,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 7,
@@ -92,6 +99,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 8,
@@ -104,6 +112,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
     {
       id: 9,
@@ -116,6 +125,7 @@ function ProductList(){
         rate: 4,
         count: 100
       },
+      stock: 10,
     },
   ]
   return(
@@ -125,7 +135,7 @@ function ProductList(){
         {
           items.map((item) => {
             return (
-              <Product key= {item.id} productInfo = {item}/>
+              <ProductClass key= {item.id} productInfo = {item}/>
             )
           })
         }

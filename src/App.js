@@ -1,17 +1,44 @@
-//importing default exports - name can be different
-// import Product from "./components/Product"
-//importing named exports - name must be the same
-import { ProductList } from "./components/ProductList"
+import { useState } from "react"
+import CircularProgress from "@mui/material/CircularProgress"
+import Box from "@mui/material/Box"
+//importing default exports - name can be different, importing named exports - name must be the same
+import ProductListClass from "./components/ProductListClass"
 import Cart from "./components/Cart"
 import NavBar from "./components/mui/NavBar"
+import ProductInfo from "./components/ProductInfo"
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [selectedItem, setSelectedItem] = useState(null)
+
+  function setItem(item) {
+      setSelectedItem(item)
+  }
+
+  setTimeout(() => {
+    setIsLoading(false)
+  }, 2000)
+
   return (
-    <div className="App">
-      <NavBar />
-      <ProductList />
-      <Cart />
-    </div>
+    <>
+      {isLoading ? (
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh'
+          }}>
+          <CircularProgress />
+        </Box>
+      ) : 
+        (<div className="App">
+        <NavBar />
+        <ProductListClass setItem={setItem} />
+        <ProductInfo item={selectedItem} />
+        <Cart />
+      </div>)
+      }
+    </>
   )
 }
 
