@@ -2,10 +2,11 @@ import { useState } from "react"
 import CircularProgress from "@mui/material/CircularProgress"
 import Box from "@mui/material/Box"
 //importing default exports - name can be different, importing named exports - name must be the same
-import ProductListClass from "./components/ProductListClass"
+// import ProductListClass from "./components/ProductListClass"
 import Cart from "./components/Cart"
 import NavBar from "./components/mui/NavBar"
 import ProductInfo from "./components/ProductInfo"
+import { ProductList } from "./components/ProductList"
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -33,7 +34,7 @@ function App() {
       ) : 
         (<div className="App">
         <NavBar />
-        <ProductListClass setItem={setItem} />
+        <ProductList setItem={setItem} />
         <ProductInfo item={selectedItem} />
         <Cart />
       </div>)
@@ -43,4 +44,4 @@ function App() {
 }
 
 //Can have only one default export per file, but can have multiple named exports per file
-export default App;
+export default App

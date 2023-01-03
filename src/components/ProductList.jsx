@@ -1,146 +1,77 @@
+// import { useEffect, useState } from "react"
+// import axios from 'axios'
 import styled from "styled-components"
-// import Product from "./Product"
+import Product from "./Product"
 import Title from './styled/Title'
 import Gridbox from './styled/Gridbox'
-import ProductClass from "./ProductClass"
+import CircularProgress from "@mui/material/CircularProgress"
+import Box from "@mui/material/Box"
+import useApi from "./utils/useApi"
 
 const CustomGrid = styled(Gridbox)`
   padding: 30px;
 `
 
-function ProductList(){
-  const items = [
-    {
-      id: 1,
-      title: "Bag",
-      price: 50,
-      description: "Bags for every occasion",
-      category: "Men's clothing",
-      image: "https://robohash.org/bag",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 2,
-      title: "Phone",
-      price: 500,
-      description: "Phones for every occasion",
-      category: "Electronics",
-      image: "https://robohash.org/phone",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 3,
-      title: "Shoes",
-      price: 150,
-      description: "Shoes for every occasion",
-      category: "Women's clothing",
-      image: "https://robohash.org/shoes",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 4,
-      title: "Bag",
-      price: 50,
-      description: "Bags for every occasion",
-      category: "Men's clothing",
-      image: "https://robohash.org/bag",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 5,
-      title: "Phone",
-      price: 500,
-      description: "Phones for every occasion",
-      category: "Electronics",
-      image: "https://robohash.org/phone",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 6,
-      title: "Shoes",
-      price: 150,
-      description: "Shoes for every occasion",
-      category: "Women's clothing",
-      image: "https://robohash.org/shoes",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 7,
-      title: "Bag",
-      price: 50,
-      description: "Bags for every occasion",
-      category: "Men's clothing",
-      image: "https://robohash.org/bag",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 8,
-      title: "Phone",
-      price: 500,
-      description: "Phones for every occasion",
-      category: "Electronics",
-      image: "https://robohash.org/phone",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-    {
-      id: 9,
-      title: "Shoes",
-      price: 150,
-      description: "Shoes for every occasion",
-      category: "Women's clothing",
-      image: "https://robohash.org/shoes",
-      rating:{
-        rate: 4,
-        count: 100
-      },
-      stock: 10,
-    },
-  ]
+function ProductList(props){
+
+  const [isLoading, itemsWithoutStock] = useApi("/products?limit=9")
+
+  const items = itemsWithoutStock.map((item) => {
+    item.stock =5
+    return item
+  })
+
+  // const [items, setItems] = useState ([])
+  // const [isLoading, setIsLoading] = useState(true)
+
+  // //componentDidMount
+  // useEffect(() => {
+  //   axios.get('/products?limit=9')
+  //   .then(res => res.data)
+  //   .then((json) => {
+  //     const newItems = json.map((product) => {
+  //       product.stock = 5
+  //       return product
+  //     })
+  //     // this.setState({
+  //     //   items: newItems,
+  //     //   isLoading: false
+  //     // })
+  //     setItems(newItems)
+  //     setIsLoading(false)
+  //   })
+  // }, [])
+
   return(
+    <>
+    {isLoading ? (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh'
+        }}>
+        <CircularProgress />
+      </Box>
+    ) : (
     <div id="products">
       <Title>Products</Title>
       < CustomGrid>
         {
           items.map((item) => {
             return (
-              <ProductClass key= {item.id} productInfo = {item}/>
+              <Product 
+                key= {item.id} 
+                productInfo = {item} 
+                setItem={props.setItem}
+              />
             )
           })
         }
       </CustomGrid>
     </div>
+    )}
+    </>
   )
 }
 
