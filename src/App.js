@@ -7,6 +7,8 @@ import Cart from "./components/Cart"
 import NavBar from "./components/mui/NavBar"
 import ProductInfo from "./components/ProductInfo"
 import { ProductList } from "./components/ProductList"
+import AddProduct from "./components/AddProduct"
+import Login from "./components/Login"
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -34,8 +36,10 @@ function App() {
       ) : 
         (<div className="App">
         <NavBar />
+        <Login />
         <ProductList setItem={setItem} />
         <ProductInfo item={selectedItem} />
+        <AddProduct />
         <Cart />
       </div>)
       }
