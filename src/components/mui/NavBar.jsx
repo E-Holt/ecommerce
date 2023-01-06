@@ -1,4 +1,5 @@
 import { AppBar, Box, Button, Container, Toolbar } from "@mui/material"
+import { useGlobalContext } from "../utils/globalStateContext"
 
 function NavBar(){
   const navBarItems = [
@@ -15,6 +16,9 @@ function NavBar(){
       id: '#cart'
     }
   ]
+
+  const { store } = useGlobalContext()
+
   return(
     <AppBar position="static">
       <Container  maxWidth="xl">
@@ -32,6 +36,7 @@ function NavBar(){
               })
             }
           </Box>
+          {store.loggedInUserName}
         </Toolbar>
       </Container>
     </AppBar>

@@ -2,6 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import styled from "styled-components"
 import Title from "./styled/Title"
+import { useGlobalContext } from "./utils/globalStateContext"
 
 
 const InputWrapper =styled.div`
@@ -25,6 +26,8 @@ function Login() {
   })
 
   const [userFetched, setUserFetched] = useState(false)
+
+  const { dispatch } = useGlobalContext()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -58,7 +61,14 @@ function Login() {
       .then ((res) => res.data)
       .then((json) => {
         setUserFetched(true)
-        localStorage.setItem("token", json.token)
+        dispatch({
+          type: 'setToken',
+          data: json.token
+        })
+        dispatch ({
+          type: 'setLoggedInUserName',
+          data: user.username
+        })
         console.log(json)
       })
       .catch ((err) => {

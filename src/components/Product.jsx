@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 
 function Product(props){
   const item = props.productInfo
-  const [itemOnCart, setItemOnCart] = useState(0)
+  const [itemOnCart, setItemOnCart] = useState(0) 
 
   function handleAddToCart () {
     setItemOnCart((prevState) => {
