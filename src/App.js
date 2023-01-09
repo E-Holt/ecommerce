@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress"
 import Box from "@mui/material/Box"
 //importing default exports - name can be different, importing named exports - name must be the same
 // import ProductListClass from "./components/ProductListClass"
-import Cart from "./components/Cart"
+import Cart, { loader } from "./components/Cart"
 import NavBar from "./components/mui/NavBar"
 import ProductInfo from "./components/ProductInfo"
 import { ProductList } from "./components/ProductList"
@@ -13,7 +13,7 @@ import Login from "./components/Login"
 import { GlobalContext } from "./components/utils/globalStateContext"
 import globalReducer from "./components/reducers/globalReducer"
 import ProtectedRoute from "./components/ProtectedRoute"
-import NotFound from "./components/NotFound"
+import NotFound from "./components/NotFound" 
 
 
 function App() {
@@ -25,6 +25,20 @@ function App() {
   }
 
   const [store, dispatch] = useReducer(globalReducer, initialState)
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element= {<MainPage />} errorElement={<NotFound />}>
+        <Route path="login" element={<Login />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="product/add" element={<AddProduct />} />
+          <Route path="cart" element={<Cart />} loader={loader} />
+        </Route>
+        <Route path="product/:productId" element={<ProductInfo />} />
+        <Route path="/" element={<ProductList />} />
+      </Route>
+    )
+  )
 
   setTimeout(() => {
     setIsLoading(false)
@@ -66,20 +80,6 @@ function App() {
     </>
   )
 }
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element= {<MainPage />} errorElement={<NotFound />}>
-      <Route path="login" element={<Login />} />
-      <Route element={<ProtectedRoute />}>
-        <Route path="product/add" element={<AddProduct />} />
-        <Route path="cart" element={<Cart />} />
-      </Route>
-      <Route path="product/:productId" element={<ProductInfo />} />
-      <Route path="/" element={<ProductList />} />
-    </Route>
-  )
-)
 
 function MainPage() {
 
