@@ -33,7 +33,7 @@ function AddProduct() {
     } else {
         setErrorMessage(null)
         // send product to api using axios
-        axios.post("/products", product)
+        axios.post("/product", product)
           .then((res) => res.data)
           .then((json) => console.log(json))
     }

@@ -10,7 +10,7 @@ function NavBar(){
     },
     {
       title: 'Add Product',
-      linkTo: 'products/add'
+      linkTo: 'product/add'
     },
     {
       title: 'Cart',

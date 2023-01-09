@@ -12,6 +12,7 @@ import AddProduct from "./components/AddProduct"
 import Login from "./components/Login"
 import { GlobalContext } from "./components/utils/globalStateContext"
 import globalReducer from "./components/reducers/globalReducer"
+//time 1:33
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -68,28 +69,20 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element= {<MainPage />}>
       <Route path="login" element={<Login />} />
-      <Route path="products/add" element={<AddProduct />} />
+      <Route path="product/add" element={<AddProduct />} />
       <Route path="cart" element={<Cart />} />
+      <Route path="product/:productId" element={<ProductInfo />} />
+      <Route path="/" element={<ProductList />} />
     </Route>
   )
 )
 
 function MainPage() {
 
-  const [selectedItem, setSelectedItem] = useState(null)
-
-  function setItem(item) {
-    setSelectedItem(item)
-    }
-
   return (
     <>
       <NavBar />
       <Outlet />
-      {/* <ProductList setItem={setItem} />
-      <ProductInfo item={selectedItem} />
-      <AddProduct />
-      <Cart /> */} 
     </>
   )
 }
