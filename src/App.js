@@ -12,6 +12,7 @@ import AddProduct from "./components/AddProduct"
 import Login from "./components/Login"
 import { GlobalContext } from "./components/utils/globalStateContext"
 import globalReducer from "./components/reducers/globalReducer"
+import ProtectedRoute from "./components/ProtectedRoute"
 //time 1:33
 
 function App() {
@@ -69,8 +70,10 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element= {<MainPage />}>
       <Route path="login" element={<Login />} />
-      <Route path="product/add" element={<AddProduct />} />
-      <Route path="cart" element={<Cart />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="product/add" element={<AddProduct />} />
+        <Route path="cart" element={<Cart />} />
+      </Route>
       <Route path="product/:productId" element={<ProductInfo />} />
       <Route path="/" element={<ProductList />} />
     </Route>
