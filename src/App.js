@@ -1,4 +1,5 @@
 import { useEffect, useState, useReducer } from "react"
+import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress"
 import Box from "@mui/material/Box"
 //importing default exports - name can be different, importing named exports - name must be the same
@@ -14,7 +15,6 @@ import globalReducer from "./components/reducers/globalReducer"
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
-  const [selectedItem, setSelectedItem] = useState(null)
 
   const initialState ={
     loggedInUserName: '',
@@ -22,10 +22,6 @@ function App() {
   }
 
   const [store, dispatch] = useReducer(globalReducer, initialState)
-
-  function setItem(item) {
-      setSelectedItem(item)
-  }
 
   setTimeout(() => {
     setIsLoading(false)
@@ -60,15 +56,38 @@ function App() {
       ) : 
         (<div className="App">
         <GlobalContext.Provider value={{store, dispatch}}>
-          <NavBar />
-          <Login />
-          <ProductList setItem={setItem} />
-          <ProductInfo item={selectedItem} />
-          <AddProduct />
-          <Cart />
+          <RouterProvider router={router} />
         </GlobalContext.Provider>
       </div>)
       }
+    </>
+  )
+}
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element= {<MainPage />}>
+      <Route path="login" element={<Login />} />
+    </Route>
+  )
+)
+
+function MainPage() {
+
+  const [selectedItem, setSelectedItem] = useState(null)
+
+  function setItem(item) {
+    setSelectedItem(item)
+    }
+
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+      {/* <ProductList setItem={setItem} />
+      <ProductInfo item={selectedItem} />
+      <AddProduct />
+      <Cart /> */} 
     </>
   )
 }
