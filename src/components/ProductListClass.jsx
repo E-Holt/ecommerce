@@ -56,11 +56,11 @@ class ProductListClass extends Component {
                         <CustomGrid>
                             {this.state.items.map((item) => {
                                 return (
-                                  <ProductClass
-                                      key={item.id}
-                                      productInfo={item}
-                                      setItem={this.props.setItem}
-                                  />
+                                <ProductClass
+                                    key={item.id}
+                                    productInfo={item}
+                                    setItem={this.props.setItem}
+                                />
                                 )
                             })}
                         </CustomGrid>

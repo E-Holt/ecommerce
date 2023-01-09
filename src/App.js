@@ -1,9 +1,10 @@
-import { useState, useReducer } from "react"
+import { useEffect, useState, useReducer } from "react"
+import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress"
 import Box from "@mui/material/Box"
 //importing default exports - name can be different, importing named exports - name must be the same
 // import ProductListClass from "./components/ProductListClass"
-import Cart from "./components/Cart"
+import Cart, { loader } from "./components/Cart"
 import NavBar from "./components/mui/NavBar"
 import ProductInfo from "./components/ProductInfo"
 import { ProductList } from "./components/ProductList"
@@ -11,10 +12,12 @@ import AddProduct from "./components/AddProduct"
 import Login from "./components/Login"
 import { GlobalContext } from "./components/utils/globalStateContext"
 import globalReducer from "./components/reducers/globalReducer"
+import ProtectedRoute from "./components/ProtectedRoute"
+import NotFound from "./components/NotFound" 
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
-  const [selectedItem, setSelectedItem] = useState(null)
 
   const initialState ={
     loggedInUserName: '',
@@ -23,13 +26,38 @@ function App() {
 
   const [store, dispatch] = useReducer(globalReducer, initialState)
 
-  function setItem(item) {
-      setSelectedItem(item)
-  }
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element= {<MainPage />} errorElement={<NotFound />}>
+        <Route path="login" element={<Login />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="product/add" element={<AddProduct />} />
+          <Route path="cart" element={<Cart />} loader={loader} />
+        </Route>
+        <Route path="product/:productId" element={<ProductInfo />} />
+        <Route path="/" element={<ProductList />} />
+      </Route>
+    )
+  )
 
   setTimeout(() => {
     setIsLoading(false)
   }, 2000)
+
+  useEffect (() => {
+    const username = localStorage.getItem("username")
+    const token = localStorage.getItem("token")
+    if (username && token) {
+      dispatch({
+        type: 'setLoggedInUserName',
+        data: username
+      })
+      dispatch({
+        type: 'setToken',
+        data: token
+      })
+    }
+  }, [])
 
   return (
     <>
@@ -45,15 +73,20 @@ function App() {
       ) : 
         (<div className="App">
         <GlobalContext.Provider value={{store, dispatch}}>
-          <NavBar />
-          <Login />
-          <ProductList setItem={setItem} />
-          <ProductInfo item={selectedItem} />
-          <AddProduct />
-          <Cart />
+          <RouterProvider router={router} />
         </GlobalContext.Provider>
       </div>)
       }
+    </>
+  )
+}
+
+function MainPage() {
+
+  return (
+    <>
+      <NavBar />
+      <Outlet />
     </>
   )
 }
