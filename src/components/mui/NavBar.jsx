@@ -1,43 +1,45 @@
 import { AppBar, Box, Button, Container, Toolbar } from "@mui/material"
 import { useGlobalContext } from "../utils/globalStateContext"
+import { Link, useNavigate } from "react-router-dom"
 
 function NavBar(){
   const navBarItems = [
     {
       title: 'Products',
-      id: '#products'
+      linkTo: '/'
     },
     {
       title: 'Add Product',
-      id: '#addProduct'
+      linkTo: 'products/add'
     },
     {
       title: 'Cart',
-      id: '#cart'
+      linkTo: 'cart'
     }
   ]
 
   const { store, dispatch } = useGlobalContext()
+
+  const navigate = useNavigate()
 
   return(
     <AppBar position="static">
       <Container  maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex'}}>
-            {
-              navBarItems.map((item) => {
-                return(
-                  <a key={item.title} style={{textDecoration: 'none'}} href={item.id}>
-                    <Button sx={{ my: 2, color: 'white', display: 'block'}}>
-                      {item.title}
-                    </Button>
-                  </a>
-                )
-              })
+            {navBarItems.map((item) => {
+              return(
+                <Link key={item.title} style={{textDecoration: 'none'}} to={item.linkTo}>
+                  <Button sx={{ my: 2, color: 'white', display: 'block'}}>
+                    {item.title}
+                  </Button>
+                </Link>
+              )
+            })
             }
           </Box>
           {store.loggedInUserName}
-          {store.loggedInUserName && (
+          {store.loggedInUserName ? (
             <button onClick={() => {
               dispatch({
                 type: 'setToken',
@@ -49,6 +51,10 @@ function NavBar(){
               })
 
             }}>Logout</button>
+          ) : (
+            <button onClick={() => {
+              navigate("login")
+            }}>Login</button>
           )}
         </Toolbar>
       </Container>
